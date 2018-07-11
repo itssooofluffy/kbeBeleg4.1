@@ -1,0 +1,15 @@
+insert into user(user_id, last_name, first_name) values ('mmuster', 'Muster', 'Maxime');
+insert into user(userName, password) values ('eschueler', 'Elena', 'Schueler');
+insert into Songlist(list_name, ispublic, user_id) values ('MaximesErsteSongListe',true, 'mmuster');
+insert into Songlist(list_name, ispublic, user_id) values ('MaximesPrivateSongListe',false, 'mmuster');
+insert into Songlist(list_name, ispublic, user_id) values ('ElenasErsteSongliste',false, 'eschueler');
+insert into Songlist(list_name, ispublic, user_id) values ('ElenasPublicSongliste',true, 'eschueler');
+insert into Song(song_name, album, artist, year, list_name) values ('Song1', 'Album1' 'Artist1', '2001', 'ElenasPublicSongliste');
+insert into Song(song_name, album, artist, year, list_name) values ('Song2', 'Album1' 'Artist1', '2001', 'ElenasPublicSongliste');
+insert into Song(song_name, album, artist, year, list_name) values ('Song3', 'Album1' 'Artist1', '2001', 'ElenasPublicSongliste');
+insert into Song(song_name, album, artist, year, list_name) values ('Song1', 'Album1' 'Artist1', '2001', 'MaximesErsteSongListe');
+insert into Song(song_name, album, artist, year, list_name) values ('Song2', 'Album1' 'Artist1', '2001', 'MaximesErsteSongliste');
+insert into Song(song_name, album, artist, year, list_name) values ('Song3', 'Album1' 'Artist1', '2001', 'MaximesErsteSongliste');
+insert into Song(song_name, album, artist, year, list_name) values ('PrivateSong1', 'Album1' 'Artist1', '2001', 'ElenasErsteSongliste');
+insert into Song(song_name, album, artist, year, list_name) values ('PrivateSong2', 'Album1' 'Artist1', '2001', 'ElenasErsteSongliste');
+insert into Song(song_name, album, artist, year, list_name) values ('PrivateSong3', 'Album1' 'Artist1', '2001', 'ElenasErsteSongliste');
