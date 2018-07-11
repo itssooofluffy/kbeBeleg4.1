@@ -31,7 +31,7 @@ public class User {
     private String token;
 ;
  
-    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="user_id", cascade=CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
     private Set<Songlist> songlistSet;
 
     public User() {

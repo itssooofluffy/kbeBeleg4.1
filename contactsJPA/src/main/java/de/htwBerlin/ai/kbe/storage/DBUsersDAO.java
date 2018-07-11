@@ -65,7 +65,6 @@ public class DBUsersDAO implements UsersDAO {
             return User.getId();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error adding User: " + e.getMessage());
             transaction.rollback();
             throw new PersistenceException("Could not persist entity: " + e.toString());
         } finally {
@@ -119,7 +118,6 @@ public class DBUsersDAO implements UsersDAO {
         return createdToken;
     }
 
-    @Override
     public List<String> getTokenList() {
         return tokenList;
     }
@@ -128,7 +126,6 @@ public class DBUsersDAO implements UsersDAO {
         tokenList.add(token);
     }
 
-    @Override
     public String getToken() {
         return token;
     }

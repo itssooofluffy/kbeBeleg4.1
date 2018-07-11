@@ -58,8 +58,10 @@ public class SonglistEndpoint {
       Songlist songlist = SonglistDao.findSonglistBySonglistId(listId);
       if (user != null && isUserAuth(authString) && songlist != null && songlist.getUser() == user) {
         return songlist;
+      } else if (songlist != null && user !=null) {
+            return SonglistDao.getPublicSonglistBySonglistId(listId);
       } else {
-        return SonglistDao.getPublicSonglistBySonglistId(listId);
+          return Response.status(Response.Status.NOT_FOUND).entity("No songlist found with id " + listId).build();
       }
     }
 
@@ -69,11 +71,17 @@ public class SonglistEndpoint {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces(MediaType.TEXT_PLAIN)
-    public Response createSonglist(Songlist songlist) {
-        int newId = SonglistDao.saveSonglist(songlist);
-        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-        uriBuilder.path(Integer.toString(newId));
-        return Response.created(uriBuilder.build()).build();
+    @Path("/{id}/songlists/{listName}")
+    public Response createSonglist(Songlist songlist, @PathParam("id") String userId, @PathParam("listName") String listName,
+            @HeaderParam("authorization") String authString) throws IOException {
+        User user = UsersDao.findUserById(userId);
+        if (user != null && isUserAuth(authString)) {
+            int newId = SonglistDao.saveSonglist(songlist);
+            UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+            uriBuilder.path(Integer.toString(newId));
+            return Response.created(uriBuilder.build()).build(); 
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).entity("User is not authenticated!").build();
     }
 
     @PUT
@@ -84,9 +92,13 @@ public class SonglistEndpoint {
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response delete(@PathParam("id") Integer id) {
-        SonglistDao.deleteSonglist(id);
+    @Path("/{id}/songlists/{listId}")
+    public Response delete(@PathParam("id") String userId,@PathParam("listId") Integer id,
+            @HeaderParam("authorization") String authString) throws IOException {
+        User user = UsersDao.findUserById(userId);
+        if (user != null && isUserAuth(authString)) {
+           SonglistDao.deleteSonglist(id);  
+        } 
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 

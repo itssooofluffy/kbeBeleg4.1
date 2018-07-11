@@ -34,10 +34,4 @@ public interface UsersDAO {
      * @param id
      */
     public void deleteUser(String id);
-
-    public boolean checkContact(String userId);
-
-    public String getToken();
-
-    public Collection<String> getTokenList();
 }
