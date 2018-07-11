@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import javax.persistence.NoResultException;
 
 import de.htwBerlin.ai.kbe.data.Songlist;
 import de.htwBerlin.ai.kbe.data.User;
@@ -29,17 +30,23 @@ public class DBUsersDAO implements UsersDAO {
     }
 
     @Override
-    public User findUserById(String id) {
-        EntityManager em = emf.createEntityManager();
-        User entity = null;
-        try {
-            entity = em.find(User.class, id);
-        } finally {
-            em.close();
-        }
-        return entity;
-    }
+    public User findUserById(String userId) {
+        EntityManager em = emf.createEntityManager(); 
+        try { 
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u where u.userId = :userId", User.class);
+        query.setParameter("userId", userId); 
+        User user = query.getSingleResult(); 
+        return user;
+       } catch (NoResultException nre) { 
+           return null; 
+       } 
+         finally { 
+            em.close(); 
+        } 
+       } 
+    
 
+    @Override
     public Collection<User> findAllUsers() {
         EntityManager em = emf.createEntityManager();
         try {

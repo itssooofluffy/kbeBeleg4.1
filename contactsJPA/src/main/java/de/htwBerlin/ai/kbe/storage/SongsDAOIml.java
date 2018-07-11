@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import javax.persistence.NoResultException;
 
 @Singleton
 public class SongsDAOIml implements SongsDAO {
@@ -29,15 +30,19 @@ public class SongsDAOIml implements SongsDAO {
     }
 
     @Override
-    public Song findSongById(String SongId) {
-        EntityManager em = emf.createEntityManager();
-        Song entity = null;
-        try {
-            entity = em.find(Song.class, SongId);
-        } finally {
-            em.close();
-        }
-        return entity;
+    public Song findSongById(String songId) {
+         EntityManager em = emf.createEntityManager(); 
+        try { 
+            TypedQuery<Song> query = em.createQuery("SELECT u FROM Song u where id = :songId", Song.class);
+        query.setParameter("songId", songId); 
+        Song song = query.getSingleResult(); 
+        return song;
+       } catch (NoResultException nre) { 
+           return null; 
+       } 
+         finally { 
+            em.close(); 
+        } 
     }
 
     @Override

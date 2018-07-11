@@ -71,8 +71,8 @@ public class SonglistEndpoint {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("/{id}/songlists/{listName}")
-    public Response createSonglist(Songlist songlist, @PathParam("id") String userId, @PathParam("listName") String listName,
+    @Path("/{id}/songlists")
+    public Response createSonglist(Songlist songlist, @PathParam("id") String userId, 
             @HeaderParam("authorization") String authString) throws IOException {
         User user = UsersDao.findUserById(userId);
         if (user != null && isUserAuth(authString)) {
@@ -98,8 +98,10 @@ public class SonglistEndpoint {
         User user = UsersDao.findUserById(userId);
         if (user != null && isUserAuth(authString)) {
            SonglistDao.deleteSonglist(id);  
+           return Response.status(Response.Status.NO_CONTENT).build();
         } 
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.UNAUTHORIZED).entity("User is not authenticated!").build();
+        
     }
 
     private boolean isUserAuth(String authString) throws IOException {
